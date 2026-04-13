@@ -8,15 +8,18 @@ const buttonStyles = cva(
     variants: {
       size: {
         default: "px-2 py-2 text-sm",
+        ["default-ytsize"]: "px-3 py-1.5 text-sm",
         sm: "px-2 py-1 text-xs",
         md: "px-4 py-2 text-md",
         lg: "px-6 py-2 text-base",
       },
       variant: {
         default: "bg-gray-100 text-gray-900 hover:bg-gray-200",
+        
         ["default-rounded"]: "bg-gray-100 text-gray-900 hover:bg-gray-200 rounded-full",
         ghost: "bg-transparent text-gray-700 hover:bg-gray-100",
-        icon: "text-gray-900 hover:bg-gray-200 rounded-full", // no padding here
+        icon: "text-gray-900 hover:bg-gray-200 rounded-full",
+        ytbtn : "bg-gray-900 text-white px-3 py-1.5"
       }
       ,
     },
