@@ -13,29 +13,59 @@ export default function CategoryPills(props: DataProps) {
   const [translate, setTranslate] = useState(0);
   const TRANSLATE_LIMIT: number = 200;
   const container = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+//   useEffect(() => {
+//     if (!container.current) return;
+  
+//     const observerLine = new ResizeObserver(() => {
+//       if (!container.current) return;
+  
+//       const visible = container.current.clientWidth;
+//       const total = container.current.scrollWidth;
+//       const maxTranslate = -(total - visible);
+  
+//       // Left arrow visible if we've scrolled left
+//       setIsLeftVisible(translate < 0);
+  
+//       // Right arrow visible if we haven't reached/passed the end
+//       console.log(translate , maxTranslate);
+//       setIsRightVisible(translate > maxTranslate);
+//     });
+  
+//     observerLine.observe(container.current);
+  
+//     return () => {
+//       observerLine.disconnect();
+//     };
+//   }, [container, translate, props.btns]);
+
+useEffect(() => {
     if (!container.current) return;
   
-    const observerLine = new ResizeObserver(() => {
+    const updateVisibility = () => {
       if (!container.current) return;
   
       const visible = container.current.clientWidth;
       const total = container.current.scrollWidth;
       const maxTranslate = -(total - visible);
   
-      // Left arrow visible if we've scrolled left
-      setIsLeftVisible(translate < 0);
+      // Left arrow: show if we've scrolled left at all
+      setIsLeftVisible(translate < -2); // small buffer avoids flicker
   
-      // Right arrow visible if we haven't reached/passed the end
-      setIsRightVisible(translate > maxTranslate);
-    });
+      // Right arrow: show if we haven't reached/passed the end
+      setIsRightVisible(translate > maxTranslate + 2); // buffer avoids rounding issues
+    };
   
+    const observerLine = new ResizeObserver(updateVisibility);
     observerLine.observe(container.current);
+  
+    // run once immediately
+    updateVisibility();
   
     return () => {
       observerLine.disconnect();
     };
   }, [container, translate, props.btns]);
+  
   
 
   return (
