@@ -49,16 +49,21 @@ useEffect(() => {
       const maxTranslate = -(total - visible);
   
       // Left arrow: show if we've scrolled left at all
-      setIsLeftVisible(translate < -2); // small buffer avoids flicker
+      setIsLeftVisible(translate < -2);
   
-      // Right arrow: show if we haven't reached/passed the end
-      setIsRightVisible(translate > maxTranslate + 2); // buffer avoids rounding issues
+      // Right arrow: show if content is wider than container AND we haven't reached the end
+      if (total > visible) {
+        setIsRightVisible(translate > maxTranslate + 2);
+      } else {
+        // if everything fits, no right arrow needed
+        setIsRightVisible(false);
+      }
     };
   
     const observerLine = new ResizeObserver(updateVisibility);
     observerLine.observe(container.current);
   
-    // run once immediately
+    // run once on mount
     updateVisibility();
   
     return () => {
