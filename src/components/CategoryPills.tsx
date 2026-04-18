@@ -13,44 +13,21 @@ export default function CategoryPills(props: DataProps) {
   const [translate, setTranslate] = useState(0);
   const TRANSLATE_LIMIT: number = 200;
   const container = useRef<HTMLDivElement>(null);
-//   useEffect(() => {
-//     if (!container.current) return;
-  
-//     const observerLine = new ResizeObserver(() => {
-//       if (!container.current) return;
-  
-//       const visible = container.current.clientWidth;
-//       const total = container.current.scrollWidth;
-//       const maxTranslate = -(total - visible);
-  
-//       // Left arrow visible if we've scrolled left
-//       setIsLeftVisible(translate < 0);
-  
-//       // Right arrow visible if we haven't reached/passed the end
-//       console.log(translate , maxTranslate);
-//       setIsRightVisible(translate > maxTranslate);
-//     });
-  
-//     observerLine.observe(container.current);
-  
-//     return () => {
-//       observerLine.disconnect();
-//     };
-//   }, [container, translate, props.btns]);
 
-useEffect(() => {
+
+  useEffect(() => {
     if (!container.current) return;
-  
+
     const updateVisibility = () => {
       if (!container.current) return;
-  
+
       const visible = container.current.clientWidth;
       const total = container.current.scrollWidth;
       const maxTranslate = -(total - visible);
-  
+
       // Left arrow: show if we've scrolled left at all
       setIsLeftVisible(translate < -2);
-  
+
       // Right arrow: show if content is wider than container AND we haven't reached the end
       if (total > visible) {
         setIsRightVisible(translate > maxTranslate + 2);
@@ -59,22 +36,20 @@ useEffect(() => {
         setIsRightVisible(false);
       }
     };
-  
+
     const observerLine = new ResizeObserver(updateVisibility);
     observerLine.observe(container.current);
-  
+
     // run once on mount
     updateVisibility();
-  
+
     return () => {
       observerLine.disconnect();
     };
   }, [container, translate, props.btns]);
-  
-  
 
   return (
-    <div className="relative overflow-hidden" ref={container}>
+    <div className="relative overflow-hidden px-2" ref={container}>
       <div
         className="w-max whitespace-nowrap flex gap-2 transition-transform duration-600 ease-in-out"
         style={{ transform: `translateX(${translate}px)` }}

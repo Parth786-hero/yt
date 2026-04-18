@@ -6,7 +6,7 @@ export default function PageHeader() {
   const [show, setShow] = useState(true);
   return (
     <>
-      <div className="flex items-center justify-between py-3 px-3 gap-3 md:gap-20 overflow-x-hidden sticky top-0 bg-white">
+      <div className="z-20 flex items-center justify-between py-3 px-3 gap-3 md:gap-20 overflow-x-hidden sticky top-0 bg-white">
         {show ? (
           <div className="flex items-center gap-3 shrink-0">
             <Button variant={"icon"}>
