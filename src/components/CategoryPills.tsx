@@ -11,34 +11,32 @@ export default function CategoryPills(props: DataProps) {
   const [isLeftVisible, setIsLeftVisible] = useState<boolean>(false);
   const [isRightVisible, setIsRightVisible] = useState<boolean>(true);
   const [translate, setTranslate] = useState(0);
-  const TRANSLATE_LIMIT: number = 300;
+  const TRANSLATE_LIMIT: number = 200;
   const container = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!container.current) return;
-    const visible = container.current.clientWidth;
-    const total = container.current.scrollWidth;
-
+  
     const observerLine = new ResizeObserver(() => {
-      if (translate < 0) {
-        setIsLeftVisible(true);
-      } else {
-        setIsLeftVisible(false);
-      }
+      if (!container.current) return;
+  
+      const visible = container.current.clientWidth;
+      const total = container.current.scrollWidth;
       const maxTranslate = -(total - visible);
-
-      if (translate === maxTranslate) {
-        setIsRightVisible(false);
-      } else {
-        setIsRightVisible(true);
-      }
+  
+      // Left arrow visible if we've scrolled left
+      setIsLeftVisible(translate < 0);
+  
+      // Right arrow visible if we haven't reached/passed the end
+      setIsRightVisible(translate > maxTranslate);
     });
-
+  
     observerLine.observe(container.current);
-
+  
     return () => {
       observerLine.disconnect();
     };
   }, [container, translate, props.btns]);
+  
 
   return (
     <div className="relative overflow-hidden" ref={container}>

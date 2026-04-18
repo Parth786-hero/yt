@@ -5,9 +5,9 @@ export default function BodyHeader(){
     const [selected , onSelect] = useState<string>(btns[0]);
     return(
         <>
-            <div className="grid grid-cols-[auto_1fr] my-2.5">
+            <div className="grid grid-cols-[auto_1fr] my-2">
                 <div className="hidden md:flex">Part</div>
-                <div className="px-4 overflow-hidden">
+                <div className="px-2 md:px-3 overflow-hidden">
                     <CategoryPills btns={btns} selected = {selected} onSelect={onSelect}/>
                 </div>
             </div>
